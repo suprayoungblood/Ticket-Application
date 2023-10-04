@@ -5,7 +5,7 @@ import TicketForm from "./components/TicketForm.vue";
 
 <template>
   <div>
-    <!-- Using the TicketDetails and TicketForm components -->
+    <!-- Using the TicketDetails component -->
     <TicketDetails
       category="Sample Category"
       :types="['Type1', 'Type2']"
@@ -13,7 +13,42 @@ import TicketForm from "./components/TicketForm.vue";
       description="Sample Description"
       :files="['file1.txt', 'file2.txt']"
     />
-    <TicketForm />
+
+    <!-- Button to trigger the modal -->
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#ticketFormModal"
+    >
+      Open Ticket Form
+    </button>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="ticketFormModal"
+      tabindex="-1"
+      aria-labelledby="ticketFormModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ticketFormModalLabel">Ticket Form</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <TicketForm />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
