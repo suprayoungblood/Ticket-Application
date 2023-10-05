@@ -5,10 +5,12 @@
   aria-labelledby="ticketFormModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ticketFormModalLabel">Submit a Ticket</h5>
+        <h5 class="modal-title text-left" id="ticketFormModalLabel">
+          Ticket Details
+        </h5>
         <button
           type="button"
           class="close"
@@ -20,41 +22,70 @@
       </div>
       <div class="modal-body">
         <form @submit.prevent="submitForm">
-          <!-- Category Dropdown -->
-          <select v-model="category" class="form-control mb-3">
-            <option v-for="cat in categories" :key="cat" :value="cat">
-              {{ cat }}
-            </option>
-          </select>
-
-          <!-- Type Dropdown -->
-          <select v-model="type" multiple class="form-control mb-3">
-            <option v-for="t in currentTypes" :key="t" :value="t">
-              {{ t }}
-            </option>
-          </select>
-
+          <div class="row">
+            <!-- Category Dropdown -->
+            <div class="form-group col-md-6 text-left-labels">
+              <label for="category">Category</label>
+              <div class="select-container" @click="toggleArrow('category')">
+                <select v-model="category" class="form-control" id="category">
+                  <option v-for="cat in categories" :key="cat" :value="cat">
+                    {{ cat }}
+                  </option>
+                </select>
+                <div class="arrow-down" :class="{'open': openCategory}"></div>
+              </div>
+            </div>
+            <!-- Type Dropdown -->
+            <div class="form-group col-md-6 text-left-labels">
+              <label for="type">Type</label>
+              <div class="select-container" @click="toggleArrow('type')">
+                <select v-model="type" class="form-control" id="type">
+                  <option v-for="t in currentTypes" :key="t" :value="t">
+                    {{ t }}
+                  </option>
+                </select>
+                <div class="arrow-down" :class="{'open': openType}"></div>
+              </div>
+            </div>
+          </div>
           <!-- Subject Input -->
-          <input
-            v-model="subject"
-            placeholder="Subject"
-            class="form-control mb-3"
-          />
-
+          <div class="form-group text-left-labels">
+            <label for="subject">Subject</label>
+            <input
+              v-model="subject"
+              id="subject"
+              class="form-control"
+              placeholder="Subject"
+            />
+          </div>
           <!-- Description Input -->
-          <textarea
-            v-model="description"
-            placeholder="Description"
-            class="form-control mb-3"
-          ></textarea>
-
-          <!-- Add Pretend Files Button -->
-          <button @click.prevent="addFile" class="btn btn-secondary mb-3">
-            Add File
-          </button>
-          <ul>
-            <li v-for="file in files" :key="file">{{ file }}</li>
-          </ul>
+          <div class="form-group text-left-labels description-form-group">
+            <label for="description">Description</label>
+            <textarea
+              v-model="description"
+              id="description"
+              class="form-control"
+              placeholder="Description"
+            ></textarea>
+          </div>
+          <!-- Files -->
+          <div class="form-group text-left-container">
+            <h6>Ticket Files & Documents</h6>
+            <ul>
+              <li v-for="(file, index) in files" :key="index">
+                {{ file }}
+                <img
+                  src="/trash.svg"
+                  alt="Trash Icon"
+                  @click="removeFile(index)"
+                  style="cursor: pointer; width: 20px; height: auto"
+                />
+              </li>
+            </ul>
+            <button @click.prevent="addFile" class="btn btn-outline-secondary">
+              + Attach File
+            </button>
+          </div>
         </form>
       </div>
       <div class="modal-footer">

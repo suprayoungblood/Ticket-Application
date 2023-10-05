@@ -3,7 +3,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 
-declare var bootstrap: any; // Add this line
+declare var bootstrap: any;
 
 const categories = ["Hardware", "Software", "Network", "In-Processing"];
 const types = {
@@ -48,6 +48,10 @@ const addFile = () => {
   files.value.push(`nameoffileattached${fileCounter}.ext`);
 };
 
+const removeFile = (index: number) => {
+  files.value.splice(index, 1);
+};
+
 const clearForm = () => {
   category.value = categories[0];
   type.value = [];
@@ -72,6 +76,19 @@ const closeModal = () => {
   const modalEl = document.getElementById("ticketFormModal");
   const modal = new bootstrap.Modal(modalEl);
   modal.hide();
+};
+
+// New refs for arrow animation
+const openCategory = ref(false);
+const openType = ref(false);
+
+// New method to toggle arrow rotation
+const toggleArrow = (dropdown: "category" | "type") => {
+  if (dropdown === "category") {
+    openCategory.value = !openCategory.value;
+  } else if (dropdown === "type") {
+    openType.value = !openType.value;
+  }
 };
 </script>
 

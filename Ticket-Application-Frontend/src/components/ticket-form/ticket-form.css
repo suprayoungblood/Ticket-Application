@@ -1,3 +1,53 @@
 .submit-ticket-btn:hover {
   background-color: #0056b3;
 }
+
+.fa-trash:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.text-left-container {
+  margin-top: 2rem;
+}
+
+.text-left-container,
+.text-left-container h6,
+.text-left-container ul,
+.text-left-container li,
+.text-left-container button {
+  text-align: left !important;
+}
+
+.text-left-labels,
+.text-left-labels label,
+.text-left-labels input,
+.text-left-labels textarea,
+.text-left-labels select {
+  text-align: left !important;
+}
+
+.description-form-group {
+  margin-top: 1rem;
+}
+
+.select-container {
+  position: relative;
+}
+
+.arrow-down {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  border: solid black;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+
+.select-container.open .arrow-down {
+  transform: rotate(-135deg);
+}
