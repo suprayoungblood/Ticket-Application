@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  ticket-mysql:
+    image: mysql:8
+    container_name: ticket-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 15_{!3R8Rci_
+      MYSQL_DATABASE: ticket_system
+    ports:
+      - "3307:3306"
+    volumes:
+      - ticket-mysql-data:/var/lib/mysql
+
+volumes:
+  ticket-mysql-data:
