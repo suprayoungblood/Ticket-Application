@@ -1,8 +1,16 @@
 <div class="container d-flex justify-content-center align-items-center vh-100">
   <div class="text-center">
     <h1>Welcome</h1>
-    <router-link to="/ticket-form" class="btn btn-primary mt-3">
+    <!-- Trigger the modal -->
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#ticketFormModal"
+    >
       Submit a Ticket
-    </router-link>
+    </button>
+    <!-- Ticket Form Modal Component -->
+    <TicketForm />
   </div>
 </div>
