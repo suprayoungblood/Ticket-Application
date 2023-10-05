@@ -1,12 +1,3 @@
-.submit-ticket-btn:hover {
-  background-color: #0056b3;
-}
-
-.fa-trash:hover {
-  color: red;
-  cursor: pointer;
-}
-
 .text-left-container {
   margin-top: 2rem;
 }
@@ -45,9 +36,4 @@
   display: inline-block;
   padding: 3px;
   transform: rotate(45deg);
-  transition: transform 0.3s ease;
-}
-
-.select-container.open .arrow-down {
-  transform: rotate(-135deg);
 }

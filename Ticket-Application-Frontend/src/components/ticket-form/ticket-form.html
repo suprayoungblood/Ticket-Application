@@ -11,14 +11,6 @@
         <h5 class="modal-title text-left" id="ticketFormModalLabel">
           Ticket Details
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <form @submit.prevent="submitForm">
@@ -32,7 +24,7 @@
                     {{ cat }}
                   </option>
                 </select>
-                <div class="arrow-down" :class="{'open': openCategory}"></div>
+                <div v-if="!category" class="arrow-down"></div>
               </div>
             </div>
             <!-- Type Dropdown -->
@@ -44,12 +36,13 @@
                     {{ t }}
                   </option>
                 </select>
-                <div class="arrow-down" :class="{'open': openType}"></div>
+                <div v-if="!type.length" class="arrow-down"></div>
               </div>
             </div>
           </div>
           <!-- Subject Input -->
-          <div class="form-group text-left-labels">
+          <div class="form-group text-left-labels mt-3">
+            <!-- Added margin-top for spacing -->
             <label for="subject">Subject</label>
             <input
               v-model="subject"
@@ -82,15 +75,19 @@
                 />
               </li>
             </ul>
-            <button @click.prevent="addFile" class="btn btn-outline-secondary">
+            <button @click.prevent="addFile" class="btn btn-outline-primary">
               + Attach File
             </button>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Close
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          data-bs-dismiss="modal"
+        >
+          Cancel
         </button>
         <button
           type="button"

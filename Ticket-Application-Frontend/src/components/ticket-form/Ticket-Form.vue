@@ -85,9 +85,9 @@ const openType = ref(false);
 // New method to toggle arrow rotation
 const toggleArrow = (dropdown: "category" | "type") => {
   if (dropdown === "category") {
-    openCategory.value = !openCategory.value;
+    openCategory.value = false;
   } else if (dropdown === "type") {
-    openType.value = !openType.value;
+    openType.value = false;
   }
 };
 </script>

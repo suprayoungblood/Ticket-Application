@@ -1,0 +1,27 @@
+/* Primary Button */
+.btn-primary {
+  background-color: #18344b;
+  border-color: #18344b;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: transparent; /* Make the background transparent, like the outline button */
+  border-color: #18344b; /* Use the outline button's border color */
+  color: #18344b; /* Set the text color to match the outline button's default state */
+}
+
+/* Outline Primary Button */
+.btn-outline-primary {
+  color: #18344b;
+  border-color: #18344b;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+  background-color: #122a3a; /* Darker shade of #18344b */
+  border-color: #122a3a;
+  color: #fff; /* White text when the background is dark */
+}
