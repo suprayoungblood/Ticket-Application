@@ -36,13 +36,33 @@ exports.createUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
   const { username, password } = req.body;
-  const user = await User.findByUsername(username); // You'll need to implement findByUsername in the User model
 
-  if (user && (await User.checkPassword(password, user.password))) {
-    req.session.userId = user.id; // Store user ID in session
-    return res.status(200).json({ message: "Logged in successfully" });
-  } else {
-    return res.status(400).json({ error: "Invalid credentials" });
+  console.log("Received username:", username);
+  console.log("Received password:", password);
+
+  try {
+    const user = await User.findByUsername(username);
+
+    console.log("User found:", user);
+
+    if (user) {
+      const isPasswordValid = await User.checkPassword(password, user.password);
+      console.log("Password validity:", isPasswordValid);
+
+      if (isPasswordValid) {
+        req.session.userId = user.id; // Store user ID in session
+        return res.status(200).json({ message: "Logged in successfully" });
+      } else {
+        console.log("Login failed due to password mismatch");
+        return res.status(400).json({ error: "Invalid credentials" });
+      }
+    } else {
+      console.log("Login failed due to user not found");
+      return res.status(400).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    return res.status(500).json({ error: error.message });
   }
 };
 

@@ -16,6 +16,25 @@
       <router-link class="nav-item nav-link active" to="/"
         >Home <span class="sr-only">(current)</span></router-link
       >
+      <router-link v-if="!isAuthenticated" class="nav-item nav-link" to="/login"
+        >Login</router-link
+      >
+      <router-link
+        v-if="!isAuthenticated"
+        class="nav-item nav-link"
+        to="/register"
+        >Register</router-link
+      >
+      <span v-if="displayUsername" class="nav-item nav-link"
+        >Welcome, {{ loggedInUsername }}</span
+      >
+      <a
+        v-if="isAuthenticated"
+        class="nav-item nav-link"
+        href="#"
+        @click="handleLogout"
+        >Logout</a
+      >
     </div>
   </div>
 </nav>

@@ -24,12 +24,27 @@ class User {
     }
   }
 
+  static async findByUsername(username) {
+    try {
+      const [rows, fields] = await connection.execute(
+        "SELECT * FROM users WHERE username = ?",
+        [username]
+      );
+      if (rows.length === 0) return null;
+      return rows[0];
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async hashPassword(password) {
     return bcrypt.hash(password, 10);
   }
 
   static async checkPassword(password, hash) {
-    return bcrypt.compare(password, hash);
+    const isMatch = await bcrypt.compare(password, hash);
+    console.log("Password match status:", isMatch); // Added this log
+    return isMatch;
   }
 
   static async create({ username, password, email }) {
@@ -38,18 +53,6 @@ class User {
       const [result] = await connection.execute(
         "INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
         [username, hashedPassword, email]
-      );
-      return result.insertId;
-    } catch (error) {
-      throw error;
-    }
-  }
-
-  static async create({ username, password, email }) {
-    try {
-      const [result] = await connection.execute(
-        "INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
-        [username, password, email]
       );
       return result.insertId;
     } catch (error) {
