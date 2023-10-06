@@ -1,30 +1,24 @@
 const mysql = require("mysql2/promise");
 
-let connection;
+const connection = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+});
 
-const connectDB = async () => {
+async function connectDB() {
   try {
-    console.log("Database Parameters:", {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      port: process.env.DB_PORT,
-    });
-
-    connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      port: process.env.DB_PORT,
-    });
-
-    console.log("Connected to the MySQL database.");
-  } catch (err) {
-    console.error("Error connecting to the MySQL database: ", err);
+    await connection.getConnection();
+    console.log("Database connected successfully");
+  } catch (error) {
+    console.error(`Error connecting to the database: ${error.message}`);
+    process.exit(1);
   }
-};
+}
 
 module.exports = {
   connectDB,
