@@ -5,7 +5,7 @@ export default {
   name: "Navbar",
   data() {
     return {
-      isAuthenticated: false,
+      isAuthenticated: localStorage.getItem("isAuthenticated") === "true",
       loggedInUsername: null as string | null,
     };
   },
@@ -23,6 +23,7 @@ export default {
 
         const data = await response.json();
         if (response.ok) {
+          localStorage.removeItem("isAuthenticated");
           this.isAuthenticated = false;
           alert(data.message);
         } else {

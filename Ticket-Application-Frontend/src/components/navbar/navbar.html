@@ -14,8 +14,8 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <router-link class="nav-item nav-link active" to="/"
-        >Home <span class="sr-only">(current)</span></router-link
-      >
+        >Home <span class="sr-only"></span
+      ></router-link>
       <router-link v-if="!isAuthenticated" class="nav-item nav-link" to="/login"
         >Login</router-link
       >
@@ -25,9 +25,10 @@
         to="/register"
         >Register</router-link
       >
-      <span v-if="displayUsername" class="nav-item nav-link"
+      <span v-if="isAuthenticated" class="nav-item nav-link"
         >Welcome, {{ loggedInUsername }}</span
       >
+      <span v-else class="nav-item nav-link">Please sign in</span>
       <a
         v-if="isAuthenticated"
         class="nav-item nav-link"

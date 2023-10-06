@@ -1,8 +1,9 @@
 <div class="container d-flex justify-content-center align-items-center vh-100">
   <div class="text-center">
-    <h1>Welcome</h1>
-    <!-- Trigger the modal -->
+    <h1 v-if="isUserAuthenticated">Welcome</h1>
+    <h1 v-else>Please Sign In</h1>
     <button
+      v-if="isUserAuthenticated"
       type="button"
       class="btn btn-primary"
       data-bs-toggle="modal"
@@ -10,7 +11,6 @@
     >
       Submit a Ticket
     </button>
-    <!-- Ticket Form Modal Component -->
     <TicketForm />
   </div>
 </div>
