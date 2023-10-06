@@ -81,6 +81,12 @@ cd Ticket-Application
 
   `npm start`
 
+  ### Once the containers are running:
+
+- The frontend will be accessible at: http://localhost:5173
+- The backend API will be accessible at: http://localhost:3500
+- MySQL will be accessible on port 3307.
+
 ## Usage
 
 ### Creating a Ticket:

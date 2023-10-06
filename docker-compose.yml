@@ -19,6 +19,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3500:3500"
+    volumes:
+      - ./Ticket-Application-Backend/uploads:/usr/src/app/uploads
     depends_on:
       - ticket-mysql
 

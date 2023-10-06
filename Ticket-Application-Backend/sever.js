@@ -10,6 +10,7 @@ const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const { connectDB } = require("./config/dbConn");
 const userRoutes = require("./routes/userRoutes");
+const ticketFileRoutes = require("./routes/ticketFileRoutes");
 const PORT = process.env.PORT || 3500;
 
 // Database Connection
@@ -35,6 +36,9 @@ app.use("/", require("./routes/root"));
 
 // User routes
 app.use("/users", userRoutes);
+
+// Ticket File routes
+app.use("/files", ticketFileRoutes);
 
 // Handle 404 for unrecognized routes
 app.all("*", (req, res) => {
