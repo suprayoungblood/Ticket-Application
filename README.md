@@ -57,8 +57,6 @@ This will spin up a MySQL instance with the database configurations as specified
 
 ## Usage
 
-## Usage
-
 ### Creating a Ticket:
 
 1. Navigate to the ticket creation form.

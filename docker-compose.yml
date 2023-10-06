@@ -11,6 +11,7 @@ services:
       - "3307:3306"
     volumes:
       - ticket-mysql-data:/var/lib/mysql
+      - ./ticket_schema.sql:/docker-entrypoint-initdb.d/ticket_schema.sql
 
 volumes:
   ticket-mysql-data:
