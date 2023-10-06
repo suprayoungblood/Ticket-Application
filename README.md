@@ -9,21 +9,47 @@ A ticketing system built with Vue for the frontend and a Node.js backend. This a
 - **Ticket Details:** After submitting a ticket, users can view its details.
 - **(Bonus) Ticket Listing:** A front page that displays all tickets, with the ability to view individual ticket details.
 
-## Setup and Installation
+## Setup and Installation Using Docker
 
 **1. Clone the Repository:**
 
 git clone https://github.com/suprayoungblood/Ticket-Application.git
 cd Ticket-Application
 
-**2. Docker Setup for MySQL Database:**
+**2.Docker Setup for the Entire Application:**
 
-- Ensure Docker and Docker Compose are installed on your machine.
-- From the root directory of the project, run the following command to start the MySQL container:
+- Ensure you have both Docker and Docker Compose installed on your machine.
+- From the root directory of the project, execute the following command:
 
-  `docker-compose up -d`
+  `docker-compose up --build`
 
-This will spin up a MySQL instance with the database configurations as specified in your docker-compose.yml file.
+### This command:
+
+- Builds the Docker images for the frontend, backend, and the MySQL database.
+- Starts the containers.
+- Sets up a MySQL instance on port 3307 using the configurations specified in the **_docker-compose.yml_** file.
+- Runs the frontend and backend applications.
+
+### Once the containers are running:
+
+- The frontend will be accessible at: http://localhost:5173
+- The backend API will be accessible at: http://localhost:3500
+- MySQL will be accessible on port 3307.
+
+## Setup and Installation Without Docker
+
+If you do not have Docker installed or prefer to set up the application manually, you can follow these steps:
+
+**1. Clone the Repository:**
+
+git clone https://github.com/suprayoungblood/Ticket-Application.git
+cd Ticket-Application
+
+**2. MySQL Database Setup:**
+
+- Ensure you have MySQL installed on your machine.
+- Create a database named ticket_system and import the schema using the provided ticket_schema.sql:
+  `mysql -u root -p < ticket_schema.sql`
 
 **3. Backend Setup:**
 
