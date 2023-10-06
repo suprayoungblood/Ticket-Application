@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const { connection } = require("../config/dbConn");
 
 class User {
@@ -18,6 +19,27 @@ class User {
       );
       if (rows.length === 0) return null;
       return rows[0];
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async hashPassword(password) {
+    return bcrypt.hash(password, 10);
+  }
+
+  static async checkPassword(password, hash) {
+    return bcrypt.compare(password, hash);
+  }
+
+  static async create({ username, password, email }) {
+    const hashedPassword = await User.hashPassword(password);
+    try {
+      const [result] = await connection.execute(
+        "INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
+        [username, hashedPassword, email]
+      );
+      return result.insertId;
     } catch (error) {
       throw error;
     }

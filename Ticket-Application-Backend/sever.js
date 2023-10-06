@@ -1,5 +1,3 @@
-// /server.js
-
 require("dotenv").config();
 
 const express = require("express");
@@ -9,6 +7,7 @@ const { logger } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const session = require("express-session");
 const corsOptions = require("./config/corsOptions");
 const { connectDB } = require("./config/dbConn");
 const userRoutes = require("./routes/userRoutes");
@@ -30,6 +29,16 @@ app.use(express.json());
 
 // Middleware for parsing cookies
 app.use(cookieParser());
+
+// Use session middleware
+app.use(
+  session({
+    secret: "37963f589a3125e3a716bdd39914cc8d", // generates random string
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 60 * 60 * 1000 }, // 1 hour
+  })
+);
 
 // Serving static files
 app.use("/", express.static(path.join(__dirname, "public")));
