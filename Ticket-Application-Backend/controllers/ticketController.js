@@ -21,6 +21,7 @@ exports.getTicketById = async (req, res) => {
 };
 
 exports.createTicket = async (req, res) => {
+  console.log("createTicket called with data:", req.body);
   const { userId, subject, description } = req.body;
   if (!userId || !subject || !description) {
     return res.status(400).json({ error: "All fields are required" });

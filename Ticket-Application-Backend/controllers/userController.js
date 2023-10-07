@@ -50,8 +50,11 @@ exports.loginUser = async (req, res) => {
       console.log("Password validity:", isPasswordValid);
 
       if (isPasswordValid) {
-        req.session.userId = user.id; // Store user ID in session
-        return res.status(200).json({ message: "Logged in successfully" });
+        req.session.userId = user.id;
+        return res.status(200).json({
+          message: "Logged in successfully",
+          userId: user.id,
+        });
       } else {
         console.log("Login failed due to password mismatch");
         return res.status(400).json({ error: "Invalid credentials" });

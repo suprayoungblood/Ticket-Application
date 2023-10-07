@@ -61,14 +61,40 @@ const clearForm = () => {
   fileCounter = 0;
 };
 
-const submitForm = () => {
-  console.log({
+const submitForm = async () => {
+  const userIdFromLocalStorage = localStorage.getItem("userId");
+  if (!userIdFromLocalStorage) {
+    console.error("User ID not found in local storage. Please re-login.");
+    return;
+  }
+
+  const ticketData = {
     category: category.value,
     type: type.value,
     subject: subject.value,
     description: description.value,
-    files: files.value,
-  });
+    userId: parseInt(userIdFromLocalStorage, 10),
+  };
+
+  try {
+    const response = await fetch("http://localhost:3500/tickets", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(ticketData),
+    });
+
+    if (!response.ok) {
+      const responseData = await response.json();
+      console.error("Error while submitting ticket:", responseData.error);
+      return;
+    }
+
+    const responseData = await response.json();
+    console.log(responseData);
+  } catch (error) {
+    console.error("Error submitting ticket:", error);
+  }
+
   clearForm();
 };
 
@@ -78,11 +104,9 @@ const closeModal = () => {
   modal.hide();
 };
 
-// New refs for arrow animation
 const openCategory = ref(false);
 const openType = ref(false);
 
-// New method to toggle arrow rotation
 const toggleArrow = (dropdown: "category" | "type") => {
   if (dropdown === "category") {
     openCategory.value = false;

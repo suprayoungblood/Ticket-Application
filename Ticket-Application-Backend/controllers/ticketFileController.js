@@ -1,5 +1,4 @@
 const TicketFile = require("../models/TicketFile");
-const upload = require("../config/fileUpload");
 
 exports.getAllFiles = async (req, res) => {
   try {
@@ -25,16 +24,22 @@ exports.getFileById = async (req, res) => {
 
 exports.uploadFile = async (req, res) => {
   try {
-    console.log(req.file);
     const ticketId = req.body.ticketId;
-    const filename = req.file.filename;
 
-    if (!ticketId || !filename) {
-      return res.status(400).send({ error: "TicketId or filename is missing" });
+    if (!ticketId) {
+      return res.status(400).send({ error: "TicketId is missing" });
     }
 
-    await TicketFile.addFile({ ticketId, filename });
-    res.status(201).json({ message: "File uploaded successfully" });
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).send({ error: "No files were uploaded." });
+    }
+
+    for (let i = 0; i < req.files.length; i++) {
+      const filename = req.files[i].filename;
+      await TicketFile.addFile({ ticketId, filename });
+    }
+
+    res.status(201).json({ message: "Files uploaded successfully" });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }

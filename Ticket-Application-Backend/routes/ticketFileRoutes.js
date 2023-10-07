@@ -10,7 +10,7 @@ const upload = require("../config/fileUpload");
 
 router.get("/", getAllFiles);
 router.get("/:id", getFileById);
-router.post("/", upload.single("file"), uploadFile);
+router.post("/", upload.array("file"), uploadFile);
 router.delete("/:id", deleteFile);
 
 module.exports = router;

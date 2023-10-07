@@ -34,6 +34,7 @@ export default {
         const data = await response.json();
         if (response.ok) {
           localStorage.setItem("isAuthenticated", "true");
+          localStorage.setItem("userId", data.userId.toString());
           this.$emit("userLoggedIn", this.username);
           alert(data.message);
           this.$router.push("/");

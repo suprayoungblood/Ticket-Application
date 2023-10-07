@@ -29,6 +29,7 @@ class Ticket {
         "INSERT INTO tickets (user_id, subject, description) VALUES (?, ?, ?)",
         [userId, subject, description]
       );
+      console.log("Database insertion result:", result);
       return result.insertId;
     } catch (error) {
       throw error;
