@@ -9,7 +9,10 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import axios from "axios";
+import useUserContext from "@/contexts/useUserContext";
+
 export default {
   data() {
     return {
@@ -17,29 +20,34 @@ export default {
       password: "",
     };
   },
+  setup() {
+    const { setUser } = useUserContext();
+    return { setUser };
+  },
   methods: {
     async handleLogin() {
       try {
-        const response = await fetch("http://localhost:3500/users/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: this.username,
-            password: this.password,
-          }),
+        const response = await axios.post("http://localhost:3500/users/login", {
+          username: this.username,
+          password: this.password,
         });
 
-        const data = await response.json();
-        if (response.ok) {
+        if (response.status === 200) {
           localStorage.setItem("isAuthenticated", "true");
-          localStorage.setItem("userId", data.userId.toString());
-          this.$emit("userLoggedIn", this.username);
-          alert(data.message);
+          localStorage.setItem("username", this.username);
+          localStorage.setItem("userId", response.data.userId.toString());
+
+          this.setUser({
+            username: this.username,
+            userId: response.data.userId.toString(),
+          });
+
+          alert(response.data.message);
+          console.log("Emitting userLoggedIn event");
+          this.$emit("userLoggedIn");
           this.$router.push("/");
         } else {
-          alert(data.error);
+          alert(response.data.error);
         }
       } catch (error) {
         console.error("Error logging in:", error);

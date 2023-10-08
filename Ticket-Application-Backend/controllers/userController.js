@@ -29,8 +29,11 @@ exports.createUser = async (req, res) => {
   try {
     await User.create({ username, password, email });
     res.status(201).json({ message: "User created successfully" });
+    console.log("Sending successful registration response");
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res
+      .status(500)
+      .json({ error: err.message, message: "Error creating user" });
   }
 };
 

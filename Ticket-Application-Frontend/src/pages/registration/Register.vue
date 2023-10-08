@@ -10,7 +10,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import axios from "axios";
+
 export default {
   data() {
     return {
@@ -22,27 +24,24 @@ export default {
   methods: {
     async handleRegister() {
       try {
-        const response = await fetch("http://localhost:3500/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: this.username,
-            password: this.password,
-            email: this.email,
-          }),
+        const response = await axios.post("http://localhost:3500/users", {
+          username: this.username,
+          password: this.password,
+          email: this.email,
         });
 
-        const data = await response.json();
-        if (response.ok) {
-          // Handle successful registration
-          alert(data.message);
-          // Redirect to login page
+        console.log("Received response:", response);
+
+        if (response.status === 201) {
+          alert(
+            response.data.message ||
+              "Registration response received without a message."
+          );
           this.$router.push("/login");
         } else {
-          // Handle errors
-          alert(data.error);
+          alert(
+            response.data.error || response.data.message || "Unknown error"
+          );
         }
       } catch (error) {
         console.error("Error registering:", error);

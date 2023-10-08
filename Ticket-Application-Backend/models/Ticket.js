@@ -23,6 +23,18 @@ class Ticket {
     }
   }
 
+  static async findByUserId(userId) {
+    try {
+      const [rows] = await connection.execute(
+        "SELECT * FROM tickets WHERE user_id = ?",
+        [userId]
+      );
+      return rows;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async create({ userId, subject, description }) {
     try {
       const [result] = await connection.execute(

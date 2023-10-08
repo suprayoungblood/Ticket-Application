@@ -2,8 +2,10 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import axios from "axios";
+import useUserContext from "@/contexts/useUserContext";
 
-declare var bootstrap: any;
+const { userId } = useUserContext();
 
 const categories = ["Hardware", "Software", "Network", "In-Processing"];
 const types = {
@@ -62,35 +64,25 @@ const clearForm = () => {
 };
 
 const submitForm = async () => {
-  const userIdFromLocalStorage = localStorage.getItem("userId");
-  if (!userIdFromLocalStorage) {
-    console.error("User ID not found in local storage. Please re-login.");
-    return;
-  }
-
   const ticketData = {
     category: category.value,
     type: type.value,
     subject: subject.value,
     description: description.value,
-    userId: parseInt(userIdFromLocalStorage, 10),
+    userId: userId.value,
   };
 
   try {
-    const response = await fetch("http://localhost:3500/tickets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(ticketData),
-    });
+    const response = await axios.post(
+      "http://localhost:3500/tickets",
+      ticketData
+    );
 
-    if (!response.ok) {
-      const responseData = await response.json();
-      console.error("Error while submitting ticket:", responseData.error);
-      return;
+    if (response.status === 200) {
+      console.log(response.data);
+    } else {
+      console.error("Error while submitting ticket:", response.data.error);
     }
-
-    const responseData = await response.json();
-    console.log(responseData);
   } catch (error) {
     console.error("Error submitting ticket:", error);
   }

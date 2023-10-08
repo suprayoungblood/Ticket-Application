@@ -1,42 +1,52 @@
 <template src="./navbar.html"></template>
 
 <script lang="ts">
-export default {
-  name: "Navbar",
-  data() {
-    return {
-      isAuthenticated: localStorage.getItem("isAuthenticated") === "true",
-      loggedInUsername: null as string | null,
-    };
-  },
-  computed: {
-    displayUsername() {
-      return this.isAuthenticated && this.loggedInUsername;
-    },
-  },
-  methods: {
-    async handleLogout() {
-      try {
-        const response = await fetch("http://localhost:3500/users/logout", {
-          method: "POST",
-        });
+import { defineComponent, watchEffect } from "vue";
+import axios from "axios";
+import useUserContext from "@/contexts/useUserContext";
 
-        const data = await response.json();
-        if (response.ok) {
-          localStorage.removeItem("isAuthenticated");
-          this.isAuthenticated = false;
-          alert(data.message);
+export default defineComponent({
+  name: "Navbar",
+  setup() {
+    const {
+      isAuthenticated,
+      username: loggedInUsername,
+      clearUser,
+    } = useUserContext();
+
+    watchEffect(() => {
+      console.log(
+        "Navbar state:",
+        isAuthenticated.value,
+        loggedInUsername.value
+      );
+    });
+
+    const handleLogout = async () => {
+      try {
+        const response = await axios.post("http://localhost:3500/users/logout");
+
+        if (response.status === 200) {
+          clearUser();
+          console.log(
+            "User logged out:",
+            isAuthenticated.value,
+            loggedInUsername.value
+          );
+          alert(response.data.message);
         } else {
-          alert(data.error);
+          alert(response.data.error);
         }
       } catch (error) {
         console.error("Error logging out:", error);
       }
-    },
-    setUser(username: string) {
-      this.isAuthenticated = true;
-      this.loggedInUsername = username;
-    },
+    };
+
+    return {
+      isAuthenticated,
+      loggedInUsername,
+      handleLogout,
+    };
   },
-};
+});
 </script>

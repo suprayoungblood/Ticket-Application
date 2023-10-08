@@ -1,0 +1,28 @@
+<table class="table align-middle mb-0 bg-white">
+  <thead class="bg-light">
+    <tr>
+      <th>Subject</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Files</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="ticket in tickets" :key="ticket.id">
+      <td>{{ ticket.subject }}</td>
+      <td>{{ ticket.description }}</td>
+      <td>
+        <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
+      </td>
+      <td>
+        <!-- Placeholder for files -->
+      </td>
+      <td>
+        <button type="button" class="btn btn-link btn-sm btn-rounded">
+          Edit
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   getAllTickets,
   getTicketById,
+  getTicketsByUserId,
   createTicket,
   updateTicket,
   deleteTicket,
@@ -10,6 +11,7 @@ const {
 
 router.get("/", getAllTickets);
 router.get("/:id", getTicketById);
+router.get("/user/:userId", getTicketsByUserId);
 router.post("/", createTicket);
 router.put("/:id", updateTicket);
 router.delete("/:id", deleteTicket);

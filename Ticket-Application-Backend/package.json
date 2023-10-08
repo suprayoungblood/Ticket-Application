@@ -4,8 +4,8 @@
   "description": "ticket application backend",
   "main": "server.js",
   "scripts": {
-    "start": "node sever",
-    "dev": "nodemon sever"
+    "start": "node server",
+    "dev": "nodemon server"
   },
   "keywords": [],
   "author": "",

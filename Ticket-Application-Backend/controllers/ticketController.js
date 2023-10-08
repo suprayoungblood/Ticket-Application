@@ -20,6 +20,16 @@ exports.getTicketById = async (req, res) => {
   }
 };
 
+exports.getTicketsByUserId = async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const tickets = await Ticket.findByUserId(userId);
+    res.status(200).json(tickets);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.createTicket = async (req, res) => {
   console.log("createTicket called with data:", req.body);
   const { userId, subject, description } = req.body;

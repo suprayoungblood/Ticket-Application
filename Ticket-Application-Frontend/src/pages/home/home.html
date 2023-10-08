@@ -2,6 +2,7 @@
   <div class="text-center">
     <h1 v-if="isUserAuthenticated">Welcome</h1>
     <h1 v-else>Please Sign In</h1>
+
     <button
       v-if="isUserAuthenticated"
       type="button"
@@ -11,6 +12,9 @@
     >
       Submit a Ticket
     </button>
+
+    <TicketDetails v-if="isUserAuthenticated" :userId="userId" />
+
     <TicketForm />
   </div>
 </div>

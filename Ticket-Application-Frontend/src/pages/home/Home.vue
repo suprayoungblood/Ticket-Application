@@ -1,23 +1,24 @@
 <template src="./home.html"></template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import TicketForm from "@/components/ticket-form/Ticket-Form.vue";
+import TicketDetails from "@/components/ticket-details/Ticket-Details.vue";
+import useUserContext from "@/contexts/useUserContext";
 
 export default defineComponent({
   name: "Home",
   components: {
     TicketForm,
+    TicketDetails,
   },
   setup() {
-    // Retrieve the authentication status from local storage
-    const isUserAuthenticated = ref(
-      localStorage.getItem("isAuthenticated") === "true"
-    );
+    const { isAuthenticated, userId } = useUserContext();
 
-    return { isUserAuthenticated };
+    return {
+      isUserAuthenticated: isAuthenticated,
+      userId,
+    };
   },
 });
 </script>
-
-<style scoped src="./home.css"></style>
