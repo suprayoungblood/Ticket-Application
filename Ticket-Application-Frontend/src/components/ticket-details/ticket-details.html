@@ -13,7 +13,9 @@
       <td>{{ ticket.subject }}</td>
       <td>{{ ticket.description }}</td>
       <td>
-        <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
+        <span class="badge badge-warning rounded-pill d-inline"
+          >{{ ticket.status }}</span
+        >
       </td>
       <td>
         <!-- Placeholder for files -->

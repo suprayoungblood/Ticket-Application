@@ -8,7 +8,7 @@ const errorHandler = require("./middleware/errorHandler");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const session = require("express-session");
-const corsOptions = require("./config/corsOptions");
+const allowedOrigins = require("./config/allowedOrigins");
 const { connectDB } = require("./config/dbConn");
 const userRoutes = require("./routes/userRoutes");
 const ticketFileRoutes = require("./routes/ticketFileRoutes");
@@ -22,7 +22,18 @@ connectDB();
 app.use(logger);
 
 // CORS Middleware
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // Allow mobile apps or CURL requests
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = "CORS policy does not allow access from this origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
 
 // Middleware for parsing JSON bodies
 app.use(express.json());

@@ -4,8 +4,10 @@
 import { ref, computed } from "vue";
 import axios from "axios";
 import useUserContext from "@/contexts/useUserContext";
+import useTicketContext from "@/contexts/useTicketContext"; // Import the context
 
 const { userId } = useUserContext();
+const { fetchTicketsForUser } = useTicketContext(); // Destructure the function
 
 const categories = ["Hardware", "Software", "Network", "In-Processing"];
 const types = {
@@ -80,6 +82,7 @@ const submitForm = async () => {
 
     if (response.status >= 200 && response.status < 300) {
       console.log("Ticket successfully submitted:", response.data);
+      fetchTicketsForUser(userId.value); // Add this line to refresh the tickets list
     } else {
       console.error(
         "Error while submitting ticket:",

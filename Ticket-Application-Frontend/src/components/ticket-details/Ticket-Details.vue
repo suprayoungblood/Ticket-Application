@@ -1,7 +1,7 @@
 <template src="./ticket-details.html"></template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import axios from "axios";
 import useTicketContext from "@/contexts/useTicketContext";
 
@@ -18,7 +18,7 @@ export default defineComponent({
 
     const fetchTicketsForUser = () => {
       axios
-        .get(`/api/tickets/user/${props.userId}`)
+        .get(`http://localhost:3500/tickets/user/${props.userId}`)
         .then((response) => {
           setTickets(response.data);
         })
@@ -26,6 +26,9 @@ export default defineComponent({
           console.error("Error fetching tickets:", error);
         });
     };
+    onMounted(() => {
+      fetchTicketsForUser();
+    });
 
     return {
       tickets,
