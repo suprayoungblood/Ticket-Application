@@ -78,13 +78,19 @@ const submitForm = async () => {
       ticketData
     );
 
-    if (response.status === 200) {
-      console.log(response.data);
+    if (response.status >= 200 && response.status < 300) {
+      console.log("Ticket successfully submitted:", response.data);
     } else {
-      console.error("Error while submitting ticket:", response.data.error);
+      console.error(
+        "Error while submitting ticket:",
+        response.data.error || response.data
+      );
     }
   } catch (error) {
-    console.error("Error submitting ticket:", error);
+    console.error(
+      "Error submitting ticket:",
+      error.response ? error.response.data : error
+    );
   }
 
   clearForm();

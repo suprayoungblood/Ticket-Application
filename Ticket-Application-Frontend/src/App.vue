@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Navbar :key="navKey" @userLoggedIn="updateNavbar" />
+    <Navbar :key="navKey.toString()" @userLoggedIn="updateNavbar" />
     <router-view />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive, watchEffect } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
 import Navbar from "./components/navbar/Navbar.vue";
 import useUserContext from "@/contexts/useUserContext";
 
@@ -16,35 +16,26 @@ export default defineComponent({
     Navbar,
   },
   setup() {
-    const { setUser, isAuthenticated } = useUserContext();
-    const navKey = ref(0);
-
-    const state = reactive({
-      authStatus: isAuthenticated.value,
-    });
+    const { setUser } = useUserContext();
+    const navKey = ref(Date.now());
 
     const updateNavbar = () => {
       console.log("User logged in event caught. Updating Navbar...");
-      navKey.value++;
+      navKey.value = Date.now();
     };
 
     onMounted(() => {
-      const isAuth = localStorage.getItem("isAuthenticated");
+      const isAuthenticated = localStorage.getItem("isAuthenticated");
       const username = localStorage.getItem("username") || "";
       const userId = localStorage.getItem("userId") || "";
-      if (isAuth === "true") {
+      if (isAuthenticated === "true") {
         setUser({ username, userId });
       }
-    });
-
-    watchEffect(() => {
-      state.authStatus = isAuthenticated.value;
     });
 
     return {
       updateNavbar,
       navKey,
-      isAuthenticated: state.authStatus,
     };
   },
 });
