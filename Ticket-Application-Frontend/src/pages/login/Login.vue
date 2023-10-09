@@ -1,23 +1,19 @@
-<template>
-  <div>
-    <h2>Login</h2>
-    <form @submit.prevent="handleLogin">
-      <input v-model="username" placeholder="Username" />
-      <input type="password" v-model="password" placeholder="Password" />
-      <button type="submit">Login</button>
-    </form>
-  </div>
-</template>
+<template src="./login.html"></template>
 
 <script lang="ts">
 import axios from "axios";
 import useUserContext from "@/contexts/useUserContext";
+import Alert from "@/components/alerts/alert.vue"; // Importing the Alert component
 
 export default {
+  components: {
+    Alert,
+  },
   data() {
     return {
       username: "",
       password: "",
+      showSuccessAlert: false,
     };
   },
   setup() {
@@ -42,7 +38,11 @@ export default {
             userId: response.data.userId.toString(),
           });
 
-          alert(response.data.message);
+          this.showSuccessAlert = true; // Showing the alert
+          setTimeout(() => {
+            this.showSuccessAlert = false; // Hiding the alert after 3 seconds
+          }, 3000);
+
           console.log("Emitting userLoggedIn event");
           this.$emit("userLoggedIn");
           this.$router.push("/");
@@ -56,3 +56,5 @@ export default {
   },
 };
 </script>
+
+<style src="./login.css"></style>

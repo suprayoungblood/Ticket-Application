@@ -1,14 +1,4 @@
-<template>
-  <div>
-    <h2>Register</h2>
-    <form @submit.prevent="handleRegister">
-      <input v-model="username" placeholder="Username" />
-      <input type="password" v-model="password" placeholder="Password" />
-      <input v-model="email" placeholder="Email" />
-      <button type="submit">Register</button>
-    </form>
-  </div>
-</template>
+<template src="./register.html"></template>
 
 <script lang="ts">
 import axios from "axios";
