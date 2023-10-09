@@ -60,23 +60,15 @@
               placeholder="Description"
             ></textarea>
           </div>
-          <!-- Files -->
-          <div class="form-group text-left-container">
-            <h6>Ticket Files & Documents</h6>
-            <ul>
-              <li v-for="(file, index) in files" :key="index">
-                {{ file }}
-                <img
-                  src="/trash.svg"
-                  alt="Trash Icon"
-                  @click="removeFile(index)"
-                  style="cursor: pointer; width: 20px; height: auto"
-                />
-              </li>
-            </ul>
-            <button @click.prevent="addFile" class="btn btn-outline-primary">
-              + Attach File
-            </button>
+          <!-- File Input -->
+          <div class="form-group text-left-labels mt-3">
+            <label for="fileInput">Attach Files</label>
+            <input
+              type="file"
+              id="fileInput"
+              v-on:change="handleFileUpload"
+              multiple
+            />
           </div>
         </form>
       </div>

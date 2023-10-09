@@ -4,10 +4,10 @@
 import { ref, computed } from "vue";
 import axios from "axios";
 import useUserContext from "@/contexts/useUserContext";
-import useTicketContext from "@/contexts/useTicketContext"; // Import the context
+import useTicketContext from "@/contexts/useTicketContext";
 
 const { userId } = useUserContext();
-const { fetchTicketsForUser } = useTicketContext(); // Destructure the function
+const { fetchTicketsForUser } = useTicketContext();
 
 const categories = ["Hardware", "Software", "Network", "In-Processing"];
 const types = {
@@ -47,42 +47,51 @@ const currentTypes = computed(
   () => types[category.value as keyof typeof types]
 );
 
-const addFile = () => {
-  fileCounter++;
-  files.value.push(`nameoffileattached${fileCounter}.ext`);
-};
+const selectedFiles = ref<FileList | null>(null);
 
-const removeFile = (index: number) => {
-  files.value.splice(index, 1);
-};
-
-const clearForm = () => {
-  category.value = categories[0];
-  type.value = [];
-  subject.value = "";
-  description.value = "";
-  files.value = [];
-  fileCounter = 0;
+const handleFileUpload = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  selectedFiles.value = target.files;
 };
 
 const submitForm = async () => {
-  const ticketData = {
-    category: category.value,
-    type: type.value,
-    subject: subject.value,
-    description: description.value,
-    userId: userId.value,
+  const formData = new FormData();
+  formData.append("category", category.value);
+  formData.append("subject", subject.value);
+  formData.append("description", description.value);
+  formData.append("userId", userId.value);
+
+  // Check if type.value is an array and handle accordingly
+  if (Array.isArray(type.value)) {
+    type.value.forEach((t) => formData.append("type", t));
+  } else {
+    formData.append("type", type.value);
+  }
+
+  const clearForm = () => {
+    category.value = categories[0];
+    type.value = [];
+    subject.value = "";
+    description.value = "";
+    files.value = [];
+    selectedFiles.value = null;
   };
+
+  if (selectedFiles.value) {
+    for (let i = 0; i < selectedFiles.value.length; i++) {
+      formData.append("files", selectedFiles.value[i]);
+    }
+  }
 
   try {
     const response = await axios.post(
       "http://localhost:3500/tickets",
-      ticketData
+      formData
     );
 
     if (response.status >= 200 && response.status < 300) {
       console.log("Ticket successfully submitted:", response.data);
-      fetchTicketsForUser(userId.value); // Add this line to refresh the tickets list
+      fetchTicketsForUser(userId.value);
     } else {
       console.error(
         "Error while submitting ticket:",
@@ -90,10 +99,11 @@ const submitForm = async () => {
       );
     }
   } catch (error) {
-    console.error(
-      "Error submitting ticket:",
-      error.response ? error.response.data : error
-    );
+    if (axios.isAxiosError(error) && error.response) {
+      console.error("Error submitting ticket:", error.response.data);
+    } else {
+      console.error("Error submitting ticket:", error);
+    }
   }
 
   clearForm();

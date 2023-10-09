@@ -1,14 +1,17 @@
 const Ticket = require("../models/Ticket");
+const TicketFile = require("../models/TicketFile"); // Added this line
 
 exports.getAllTickets = async (req, res) => {
   try {
     const tickets = await Ticket.findAll();
+    for (let ticket of tickets) {
+      ticket.files = await TicketFile.findByTicketId(ticket.id);
+    }
     res.status(200).json(tickets);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
 exports.getTicketById = async (req, res) => {
   const ticketId = req.params.id;
   try {
@@ -38,8 +41,17 @@ exports.createTicket = async (req, res) => {
   }
 
   try {
-    await Ticket.create({ userId, subject, description });
-    res.status(201).json({ message: "Ticket created successfully" });
+    const ticketId = await Ticket.create({ userId, subject, description });
+
+    if (req.files && req.files.length) {
+      for (let file of req.files) {
+        await TicketFile.addFile({ ticketId, filename: file.filename });
+      }
+    }
+
+    res
+      .status(201)
+      .json({ message: "Ticket and associated files created successfully" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

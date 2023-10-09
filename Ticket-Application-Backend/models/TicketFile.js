@@ -10,14 +10,13 @@ class TicketFile {
     }
   }
 
-  static async findById(fileId) {
+  static async findByTicketId(ticketId) {
     try {
       const [rows] = await connection.execute(
-        "SELECT * FROM ticket_files WHERE id = ?",
-        [fileId]
+        "SELECT * FROM ticket_files WHERE ticket_id = ?",
+        [ticketId]
       );
-      if (rows.length === 0) return null;
-      return rows[0];
+      return rows;
     } catch (error) {
       throw error;
     }
