@@ -4,22 +4,14 @@
       <th>Subject</th>
       <th>Description</th>
       <th>Status</th>
-      <th>Files</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr v-for="ticket in tickets" :key="ticket.id">
-      <td>{{ ticket.subject }}</td>
-      <td>{{ ticket.description }}</td>
-      <td>
-        <span class="badge badge-warning rounded-pill d-inline"
-          >{{ ticket.status }}</span
-        >
-      </td>
-      <td>
-        <!-- Placeholder for files -->
-      </td>
+      <td class="truncate">{{ truncateText(ticket.subject, 30) }}</td>
+      <td class="truncate">{{ truncateText(ticket.description, 50) }}</td>
+      <td>Pending for Review</td>
       <td>
         <button type="button" class="btn btn-link btn-sm btn-rounded">
           Edit

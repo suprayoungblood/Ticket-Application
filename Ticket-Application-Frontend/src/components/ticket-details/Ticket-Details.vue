@@ -30,9 +30,17 @@ export default defineComponent({
       fetchTicketsForUser();
     });
 
+    const truncateText = (text: string, length: number) => {
+      if (text.length <= length) {
+        return text;
+      }
+      return text.substring(0, length) + "...";
+    };
+
     return {
       tickets,
       fetchTicketsForUser,
+      truncateText,
     };
   },
 });
