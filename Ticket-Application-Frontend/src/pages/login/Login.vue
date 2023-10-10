@@ -3,17 +3,12 @@
 <script lang="ts">
 import axios from "axios";
 import useUserContext from "@/contexts/useUserContext";
-import Alert from "@/components/alerts/alert.vue"; // Importing the Alert component
 
 export default {
-  components: {
-    Alert,
-  },
   data() {
     return {
       username: "",
       password: "",
-      showSuccessAlert: false,
     };
   },
   setup() {
@@ -38,13 +33,8 @@ export default {
             userId: response.data.userId.toString(),
           });
 
-          this.showSuccessAlert = true; // Showing the alert
-          setTimeout(() => {
-            this.showSuccessAlert = false; // Hiding the alert after 3 seconds
-          }, 3000);
+          alert("Successfully logged in!"); // Using the native alert
 
-          console.log("Emitting userLoggedIn event");
-          this.$emit("userLoggedIn");
           this.$router.push("/");
         } else {
           alert(response.data.error);

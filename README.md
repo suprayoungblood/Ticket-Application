@@ -2,12 +2,27 @@
 
 A ticketing system built with Vue for the frontend and a Node.js backend. This application allows users to create, view, and manage tickets with various categories and types.
 
+## Tech Stack
+
+- Backend: MySQL Database, Express, Node.js
+- Frontend: Vue, TypeScript, HTML, CSS, Bootstrap
+- Containerization: Docker
+
 ## Features
 
 - **Dynamic Form:** A custom form that adjusts based on user input, particularly the 'Type' dropdown which changes based on the 'Category' selection.
 - **File Attachments:** Users can attach mock files to tickets. Each attachment increments a counter for easy tracking.
 - **Ticket Details:** After submitting a ticket, users can view its details.
 - **(Bonus) Ticket Listing:** A front page that displays all tickets, with the ability to view individual ticket details.
+
+## Known Bugs
+
+- The Navbar does not update once the user signs in. The user needs to refresh.
+- When the user signs out, they need to refresh the page.
+
+## uture Implementation Goals
+
+- File Uploads: Started the process for users to upload files on the ticket form located on **upload-file branch**. Currently running into errors with it displaying on the ticket details.
 
 ## Setup and Installation Using Docker
 
